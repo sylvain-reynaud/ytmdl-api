@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import os
 import youtube_dl
 
 title = ''
@@ -35,7 +36,7 @@ ydl_opts = {
 }
 
 
-async def download(url, shouldDownloadPlaylist, download_dir):
+async def download(url: str, shouldDownloadPlaylist: bool, download_dir: str):
     """
     Download a single music or a playlist
 
@@ -51,7 +52,8 @@ async def download(url, shouldDownloadPlaylist, download_dir):
     # setting youtube_dl options
     opts = ydl_opts
     opts['noplaylist'] = not(shouldDownloadPlaylist)
-    opts['outtmpl'] = download_dir + '%(creator)s - %(title)s.%(ext)s'
+    opts['outtmpl'] = os.path.join(
+        download_dir, '%(creator)s - %(title)s.%(ext)s')
 
     # download
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
