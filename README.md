@@ -2,6 +2,13 @@
 
 Download audio of Youtube videos using a web API
 
+## Features
+
+### 1.0.0
+
+- Download the audio of a youtube video on `/download?url={video_url}`
+- The file is deleted right after the user downloads the file
+
 ## Usage
 
 ### Docker
