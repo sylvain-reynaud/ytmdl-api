@@ -1,4 +1,7 @@
 from typing import Optional
+
+from starlette.background import BackgroundTask
+from youtube.utils import slugify, delete_subdir_download
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, RedirectResponse
 from youtube.download import download
@@ -18,8 +21,20 @@ async def read_root():
 
 @app.get("/download")
 async def download_audio(url: Optional[str] = None, playlist: Optional[bool] = False):
-    pathfile = await download(url, playlist, DOWNLOAD_DIR)
-    filename = pathfile.replace(DOWNLOAD_DIR, "").replace("NA -", "")
+    current_download_dir = os.path.join(DOWNLOAD_DIR, slugify(url))
+    pathfile = await download(url, playlist, current_download_dir)
+    filename = pathfile.replace(current_download_dir, "")
+
+    # getting the path only
+    subdir_path = pathfile.replace(filename, "")
+    clean_filename = filename.replace("NA -", "")
+
     # audio media_type info :
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#audio_and_video_types
-    return FileResponse(path=pathfile, filename=filename, media_type="audio/webm")
+    return FileResponse(
+        path=pathfile,
+        filename=clean_filename,
+        media_type="audio/webm",
+        background=BackgroundTask(
+            delete_subdir_download, path=subdir_path, wait_minute=1)
+    )
