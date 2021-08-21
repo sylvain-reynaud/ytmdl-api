@@ -1,11 +1,10 @@
 from __future__ import unicode_literals
-import time
 import youtube_dl
 
-title = "no title"
+title = ''
 
 
-class MyLogger(object):
+class YtDlLogger(object):
     def debug(self, msg):
         pass
 
@@ -16,7 +15,7 @@ class MyLogger(object):
         print(msg)
 
 
-def my_hook(d):
+def set_title_hook(d):
     global title
     if d['status'] == 'finished':
         title = d['filename']
@@ -30,24 +29,32 @@ ydl_opts = {
     #     'preferredcodec': 'mp3',
     #     'preferredquality': '256',
     # }],
-    'logger': MyLogger(),
-    'progress_hooks': [my_hook],
-    'outtmpl': '%(creator)s - %(title)s.%(ext)s',
+    'logger': YtDlLogger(),
+    'progress_hooks': [set_title_hook],
     'forcefilename': True
 }
 
 
-def download(url, shouldDownloadPlaylist, download_dir):
+async def download(url, shouldDownloadPlaylist, download_dir):
+    """
+    Download a single music or a playlist
+
+    Args:
+        url: youtube video url
+        shouldDownloadPlaylist: True to download the playlist, False if single video
+        download_dir: directory where are saved the downloaded files
+    """
+    shouldDownloadPlaylist = False  # TODO: remove this line when the playlist download is ready
     print('video url :', url)
     print('download playlist ? :', shouldDownloadPlaylist)
 
+    # setting youtube_dl options
     opts = ydl_opts
     opts['noplaylist'] = not(shouldDownloadPlaylist)
-    opts['outtmpl'] = download_dir + opts['outtmpl']
+    opts['outtmpl'] = download_dir + '%(creator)s - %(title)s.%(ext)s'
 
+    # download
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
-    # filename = title.replace(download_dir, '')
-    # print('Filename :', filename)
     return title
