@@ -1,0 +1,5 @@
+downloaded/
+.gitignore
+LICENSE
+.vscode/
+**/__pycache__/

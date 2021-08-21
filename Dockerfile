@@ -1,21 +1,16 @@
-FROM python:alpine
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
-RUN apk add --no-cache \
+# From https://github.com/docker-library/golang
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends \
   ffmpeg \
-  tzdata
+  tzdata \
+  gcc \
+  libc-dev \
+  make \
+  && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY requirements.txt /usr/src/app/
-RUN apk --update-cache add --virtual build-dependencies gcc libc-dev make \
-  && pip install --no-cache-dir -r requirements.txt \
-  && apk del build-dependencies
-
-COPY . /usr/src/app
-
-EXPOSE 80
-
-# VOLUME ["/youtube-dl"]
-
-CMD [ "./dev.sh" ]
+COPY . /app
