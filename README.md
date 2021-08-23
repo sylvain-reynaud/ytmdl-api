@@ -39,3 +39,5 @@ To run the app in debug mode :
 ### Debugging in VS Code
 
 You can debug the code by pressing F5 key.
+
+## [TODO list](./TODO.md)
