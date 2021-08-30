@@ -2,3 +2,5 @@ fastapi==0.68.0
 uvicorn==0.15.0
 youtube-dl==2021.6.6
 aiofiles==0.7.0
+uvloop>=0.14.0
+httptools==0.1.*
