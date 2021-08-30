@@ -30,14 +30,13 @@ async def download_audio(url: Optional[str] = None, playlist: Optional[bool] = F
     # getting the path only
     subdir_path = pathfile.replace(filename, "")
     clean_filename = filename.replace("NA -", "")
-    MEDIA_TYPE = setAudioFormat(media_type)
 
     # audio media_type info :
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#audio_and_video_types
     return FileResponse(
         path=pathfile,
         filename=clean_filename,
-        media_type=MEDIA_TYPE,
+        media_type="audio/webm",
         background=BackgroundTask(
             delete_subdir_download, path=subdir_path, wait_minute=1)
     )
