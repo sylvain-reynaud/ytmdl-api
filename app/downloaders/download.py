@@ -62,16 +62,3 @@ async def download(url: str, shouldDownloadPlaylist: bool, download_dir: str):
         ydl.download([url])
 
     return title
-
-class AudioFormat(Enum):
-    WAV = "audio/wav"
-    OGG = "audio/ogg"
-    WEBM = "audio/webm"
-
-def setAudioFormat(param: str):
-    switcher={
-        'wav':'audio/wav',
-        'ogg':'audio/ogg',
-        'webm':'audio/webm',
-        }
-    return switcher.get(param,"Invalid audio format")
