@@ -15,15 +15,14 @@ app = FastAPI()
 
 @app.get("/")
 async def read_root():
-    some_file_path = f"{DOWNLOAD_DIR}Kool & The Gang - Wild And Peaceful.mp3"
-    # return {"Hello": "World"}
     return RedirectResponse("/docs#/default/download_audio_download_get")
 
 
 @app.get("/download")
 async def download_audio(url: Optional[str] = None, playlist: Optional[bool] = False, media_type: Optional[str] = 'webm'):
-    current_download_dir = os.path.join(DOWNLOAD_DIR, slugify(url))
-    pathfile = await download(url, playlist, current_download_dir)
+    # [23:] to remove 'https://www.youtube.com/watch?v='
+    current_download_dir = os.path.join(DOWNLOAD_DIR, slugify(url[31:]))
+    pathfile = await download(url, current_download_dir, playlist)
     filename = pathfile.replace(current_download_dir, "")
 
     # getting the path only
@@ -37,5 +36,5 @@ async def download_audio(url: Optional[str] = None, playlist: Optional[bool] = F
         filename=clean_filename,
         media_type="audio/webm",
         background=BackgroundTask(
-            delete_subdir_download, path=subdir_path, wait_minute=1)
+            delete_subdir_download, path=subdir_path, wait_minute=15)
     )

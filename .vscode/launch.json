@@ -11,6 +11,8 @@
       "module": "uvicorn",
       "args": [
         "main:app",
+        "--app-dir",
+        "./app",
         "--reload",
       ],
       "jinja": true

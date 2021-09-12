@@ -1,10 +1,12 @@
 from __future__ import unicode_literals
 import os
+from typing import Optional
 import youtube_dl
-from enum import Enum  
+from enum import Enum
+import zipfile
 
 
-title = ''
+filename = ''
 
 
 class YtDlLogger(object):
@@ -19,9 +21,9 @@ class YtDlLogger(object):
 
 
 def set_title_hook(d):
-    global title
+    global filename
     if d['status'] == 'finished':
-        title = d['filename']
+        filename = d['filename']
         # print('Done downloading, now converting ...')
 
 
@@ -37,8 +39,7 @@ ydl_opts = {
     'forcefilename': True
 }
 
-
-async def download(url: str, shouldDownloadPlaylist: bool, download_dir: str):
+async def download(url: str, download_dir: str, shouldDownloadPlaylist: Optional[bool] = False):
     """
     Download a single music or a playlist
 
@@ -47,7 +48,6 @@ async def download(url: str, shouldDownloadPlaylist: bool, download_dir: str):
         shouldDownloadPlaylist: True to download the playlist, False if single video
         download_dir: directory where are saved the downloaded files
     """
-    shouldDownloadPlaylist = False  # TODO: remove this line when the playlist download is ready
     print('video url :', url)
     print('download playlist ? :', shouldDownloadPlaylist)
 
@@ -60,5 +60,26 @@ async def download(url: str, shouldDownloadPlaylist: bool, download_dir: str):
     # download
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
+# if shouldDownloadPlaylist, then make a zip file with all the files
+    if shouldDownloadPlaylist:
+        filename = zip_playlist(download_dir)
 
-    return title
+    return filename
+
+
+def zip_playlist(download_dir):
+    print('making zip file ...')
+    zip_filename = 'playlist.zip'
+    zip_pathfile = os.path.join(download_dir, zip_filename)
+    zip_file = zipfile.ZipFile(zip_pathfile, 'w')
+    files = os.listdir(download_dir)
+    print(files)
+    print(zip_pathfile)
+    files.remove(zip_filename)  # avoid infinite loop
+    print(files)
+    for file in files:
+        zip_file.write(os.path.join(download_dir, file), file)
+    zip_file.close()
+    print('zip file', zip_pathfile, 'created')
+    filename = zip_pathfile
+    return filename
