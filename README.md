@@ -33,4 +33,6 @@ For more, read the [FastAPI Dockerfile documentation](https://github.com/tiangol
 
 You can debug the code by pressing F5 key.
 
-## [TODO list](./TODO.md)
+## Contribute
+
+See [CONTRIBUTE.md](./CONTRIBUTE.md)

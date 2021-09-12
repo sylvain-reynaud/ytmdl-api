@@ -2,6 +2,8 @@
 
 ## Get started
 
+Finding a feature to do ? Please take a look at open issues.
+
 ### Environment variables
 
 `HOST`, default : 0.0.0.0
