@@ -1,4 +1,4 @@
-# youtube-dl-music-web-api
+# Youtube Music Download web API
 
 Download audio of Youtube videos using a web API
 
