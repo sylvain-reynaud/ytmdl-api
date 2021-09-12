@@ -4,6 +4,10 @@ Download audio of Youtube videos using a web API
 
 ## Features
 
+### 1.1.0
+
+- Can download playlist by specifing `playlist=true` in `/download?url={video_url}&playlist=true`
+
 ### 1.0.0
 
 - Download the audio of a youtube video on `/download?url={video_url}`
