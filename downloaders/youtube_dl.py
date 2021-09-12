@@ -39,7 +39,6 @@ ydl_opts = {
     'forcefilename': True
 }
 
-
 async def download(url: str, download_dir: str, shouldDownloadPlaylist: Optional[bool] = False):
     """
     Download a single music or a playlist
@@ -61,8 +60,7 @@ async def download(url: str, download_dir: str, shouldDownloadPlaylist: Optional
     # download
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
-
-    # if shouldDownloadPlaylist, then make a zip file with all the files
+# if shouldDownloadPlaylist, then make a zip file with all the files
     if shouldDownloadPlaylist:
         filename = zip_playlist(download_dir)
 
