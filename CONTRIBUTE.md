@@ -21,17 +21,4 @@ To run the app in debug mode :
 
 Architecture reference: [Click here !](https://fastapi.tiangolo.com/tutorial/bigger-applications/)
 
-```
-.
-├── app                  # "app" is a Python package
-│   ├── __init__.py      # this file makes "app" a "Python package"
-│   ├── main.py          # "main" module, e.g. import app.main
-│   ├── dependencies.py  # "dependencies" module, e.g. import app.dependencies
-│   └── downloaders          # "downloaders" is a "Python subpackage"
-│   │   ├── __init__.py  # makes "downloaders" a "Python subpackage"
-│   │   ├── download.py     # "items" submodule, e.g. import app.downloaders.items
-│   │   └── users.py     # "users" submodule, e.g. import app.routers.users
-│   └── filesManagers         # "filesManagers" is a "Python subpackage"
-│       ├── __init__.py  # makes "filesManagers" a "Python subpackage"
-│       └── utils.py     # "admin" submodule, e.g. import app.filesManagers.admin
-```
+Module directories are placed in root dir.
