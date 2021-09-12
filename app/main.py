@@ -4,11 +4,10 @@ from starlette.background import BackgroundTask
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, RedirectResponse
 import os
-from downloaders import download
-from filesManagers.utils import slugify, delete_subdir_download
+from downloaders.youtube_dl import download
+from files_managers.utils import slugify, delete_subdir_download
 
 DOWNLOAD_DIR = os.getenv('DOWNLOAD_DIR', "./downloaded/")
-
 
 
 app = FastAPI()
