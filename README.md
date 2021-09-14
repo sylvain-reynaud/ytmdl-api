@@ -19,7 +19,7 @@ Download audio of Youtube videos using a web API
 
 Run image :
 
-`docker run -p "80:80" --name youtube-dl-music-web-api youtube-dl-music-web-api:latest`
+`docker run -p "80:80" --name ytmdl-api ghcr.io/sylvain-reynaud/ytmdl-api:latest`
 
 Build image :
 
